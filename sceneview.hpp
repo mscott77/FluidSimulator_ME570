@@ -20,6 +20,8 @@ protected:
 
 private:
 
+    void populateVerticeArray(int count, float verticeArray[]);
+
     void initVertexShader();
     void checkVertShaderErrors();
     void initFragmentShader();

@@ -119,6 +119,45 @@ void SceneView::checkLinkIssues(){
     }
 }
 
+void SceneView::populateVerticeArray(int count, float verticeArray[])
+{
+    verticeArray[0] = 0;
+    verticeArray[1] = 0;
+    verticeArray[2] = 0;
+
+    verticeArray[3] = 4;
+    verticeArray[4] = 0;
+    verticeArray[5] = 0;
+
+    verticeArray[6] = 4;
+    verticeArray[7] = 4;
+    verticeArray[8] = 0;
+
+    verticeArray[9] = 0;
+    verticeArray[10] = 4;
+    verticeArray[11] = 0;
+
+    verticeArray[12] = 8;
+    verticeArray[13] = 0;
+    verticeArray[14] = 0;
+
+    verticeArray[15] = 8;
+    verticeArray[16] = 4;
+    verticeArray[17] = 0;
+
+    verticeArray[18] = 8;
+    verticeArray[19] = 8;
+    verticeArray[20] = 0;
+
+    verticeArray[21] = 4;
+    verticeArray[22] = 8;
+    verticeArray[23] = 0;
+
+    verticeArray[24] = 0;
+    verticeArray[25] = 8;
+    verticeArray[26] = 0;
+}
+
 void SceneView::initializeGL()
 {
     initializeOpenGLFunctions();
@@ -130,20 +169,11 @@ void SceneView::initializeGL()
 
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ----------------------------------------------------------------------------------------------------
-//    float vertices[] = {
-//        -0.4f   , -0.4f , 0,
-//        0       , -0.4f , 0,
-//        0       , 0     , 0,
-//        -0.4f   , 0     , 0,
-//        0.4f    , -0.4f , 0,
-//        0.4f    , 0     , 0,
-//        0.4f    , 0.4f  , 0,
-//        0       , 0.4f  , 0,
-//        -0.4f   , 0.4f  , 0
-//    };
 
-    float vertices[] = {
+
+    float vertices[27];
+    populateVerticeArray(27, vertices);
+    /*= {
         0, 0, 0,
         4, 0, 0,
         4, 4, 0,
@@ -153,7 +183,8 @@ void SceneView::initializeGL()
         8, 8, 0,
         4, 8, 0,
         0, 8, 0
-    };
+    };*/
+
 
     float colors[] = {
         1.0f, 0.0f, 0.0f, 1.0f,  // Red
@@ -166,6 +197,7 @@ void SceneView::initializeGL()
         0.0f, 0.0f, 1.0f, 1.0f,   // Blue
         0.0f, 0.0f, 1.0f, 1.0f   // Blue
     };
+
 
     unsigned int indices[] = {  // note that we start from 0!
         0, 1, 2,

@@ -32,7 +32,7 @@ target_include_directories(${PHYSICS_LIBRARY_NAME}
         ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-#-----------------------------------SimFluid package---------------------------------
+#-----------------------------------SimFluid (graphics) package---------------------------------
 set(GUI_PACKAGE_NAME "SimFluid")
 add_executable(${GUI_PACKAGE_NAME})
 target_sources(${GUI_PACKAGE_NAME}
