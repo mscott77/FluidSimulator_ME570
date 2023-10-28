@@ -132,14 +132,25 @@ void SceneView::initializeGL()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ----------------------------------------------------------------------------------------------------
     float vertices[] = {
-        0.5f,  0.5f, 0.0f,  // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left
+        -0.4f   , -0.4f , 0,
+        0       , -0.4f , 0,
+        0       , 0     , 0,
+        -0.4f   , 0     , 0,
+        0.4f    , -0.4f , 0,
+        0.4f    , 0     , 0,
+        0.4f    , 0.4f  , 0,
+        0       , 0.4f  , 0,
+        -0.4f   , 0.4f  , 0
     };
     unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
+        0, 1, 2,
+        0, 2, 3,
+        1, 5, 2,
+        1, 4, 5,
+        2, 5, 6,
+        2, 6, 7,
+        2, 7, 3,
+        3, 7, 8
     };
 
     glGenVertexArrays(1, &VAO);
@@ -174,7 +185,7 @@ void SceneView::paintGL()
     unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
     glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, 0);
     //glBindVertexArray(0);
 }
 
