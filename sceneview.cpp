@@ -9,8 +9,8 @@
 
 SceneView::SceneView(QWidget* parent): QOpenGLWidget(parent)
 {
-    setMinimumSize(700, 700);
-    setMaximumSize(700, 700);
+    setMinimumSize(775, 775);
+    setMaximumSize(775, 775);
 }
 
 SceneView::~SceneView()
