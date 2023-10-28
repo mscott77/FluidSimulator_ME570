@@ -142,6 +142,19 @@ void SceneView::initializeGL()
         0       , 0.4f  , 0,
         -0.4f   , 0.4f  , 0
     };
+
+    float colors[] = {
+        1.0f, 0.0f, 0.0f, 1.0f,  // Red
+        0.0f, 1.0f, 0.0f, 1.0f,  // Green
+        0.0f, 0.0f, 1.0f, 1.0f,  // Blue
+        1.0f, 0.0f, 0.0f, 1.0f,  // Red
+        0.0f, 1.0f, 0.0f, 1.0f,  // Green
+        0.0f, 0.0f, 1.0f, 1.0f,  // Blue
+        1.0f, 0.0f, 0.0f, 1.0f,  // Red
+        0.0f, 1.0f, 0.0f, 1.0f,  // Green
+        0.0f, 0.0f, 1.0f, 1.0f,  // Blue
+    };
+
     unsigned int indices[] = {  // note that we start from 0!
         0, 1, 2,
         0, 2, 3,
@@ -153,20 +166,31 @@ void SceneView::initializeGL()
         3, 7, 8
     };
 
+    // generate arrays and buffers
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &ColorVBO);
     glGenBuffers(1, &EBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+
+    // bind array before doing anything else
     glBindVertexArray(VAO);
 
+    // setup vertex buffer for positions
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // setup vertex buffer for COLORS
+    glBindBuffer(GL_ARRAY_BUFFER, ColorVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+    // Define vertex attribute pointer for colors
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
 
 
 }

@@ -35,6 +35,7 @@ private:
     unsigned int fragmentShader{0};
     unsigned int shaderProgram{0};
     unsigned int VBO{0};
+    unsigned int ColorVBO{0};
     unsigned int VAO{0};
     unsigned int EBO{0};
 
