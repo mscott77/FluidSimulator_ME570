@@ -146,13 +146,13 @@ void SceneView::initializeGL()
     float colors[] = {
         1.0f, 0.0f, 0.0f, 1.0f,  // Red
         0.0f, 1.0f, 0.0f, 1.0f,  // Green
-        0.0f, 0.0f, 1.0f, 1.0f,  // Blue
         1.0f, 0.0f, 0.0f, 1.0f,  // Red
+        0.0f, 0.0f, 1.0f, 1.0f,   // Blue
         0.0f, 1.0f, 0.0f, 1.0f,  // Green
-        0.0f, 0.0f, 1.0f, 1.0f,  // Blue
+        0.0f, 1.0f, 0.0f, 1.0f,  // Green
         1.0f, 0.0f, 0.0f, 1.0f,  // Red
-        0.0f, 1.0f, 0.0f, 1.0f,  // Green
-        0.0f, 0.0f, 1.0f, 1.0f,  // Blue
+        0.0f, 0.0f, 1.0f, 1.0f,   // Blue
+        0.0f, 0.0f, 1.0f, 1.0f   // Blue
     };
 
     unsigned int indices[] = {  // note that we start from 0!
