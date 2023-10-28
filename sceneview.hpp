@@ -20,6 +20,12 @@ protected:
 
 private:
 
+    int GridSize{0}; // nxn square
+    void setGridSize(int newSize);
+    int calcNumCells();
+    int calcNumVertices();
+    int calcVertArrayLength();
+    int calcNumTriangleCorners();
     void populateVerticeArray(int count, float verticeArray[]);
 
     void initVertexShader();

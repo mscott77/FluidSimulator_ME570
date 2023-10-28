@@ -46,7 +46,7 @@ QImage SceneView::read_texture_from_resource_file(QString filepath)
 }
 
 
-//---------------------VERTEX SHADER INIT------------------------------
+//----------------------------VERTEX SHADER INIT------------------------------
 void SceneView::initVertexShader(){
 
     vertexShaderCode = read_shader_code_from_resource_file(":/shaders/pass_through.vert");
@@ -70,7 +70,7 @@ void SceneView::checkVertShaderErrors(){
 }
 
 
-//---------------------FRAGMENT SHADER INIT---------------------------------
+//----------------------------FRAGMENT SHADER INIT---------------------------------
 void SceneView::initFragmentShader(){
 
     fragmentShaderCode = read_shader_code_from_resource_file(":/shaders/simple.frag");
@@ -119,6 +119,36 @@ void SceneView::checkLinkIssues(){
     }
 }
 
+//-----------------------------DYNAMIC GRID STUFF---------------------------------
+
+// specify n for an nxn grid
+void SceneView::setGridSize(int newSize)
+{
+    this->GridSize = newSize;
+}
+
+int SceneView::calcNumCells()
+{
+    int n = this->GridSize;
+    return n*n;
+}
+
+int SceneView::calcNumVertices()
+{
+    int n = this->GridSize;
+    return (n+1)*(n+1);
+}
+
+int SceneView::calcVertArrayLength()
+{
+    return 3 * calcNumVertices();
+}
+
+int SceneView::calcNumTriangleCorners()
+{
+    return 6 * calcNumCells();
+}
+
 void SceneView::populateVerticeArray(int count, float verticeArray[])
 {
     verticeArray[0] = 0;
@@ -158,8 +188,9 @@ void SceneView::populateVerticeArray(int count, float verticeArray[])
     verticeArray[26] = 0;
 }
 
+//------------------------------INITIALIZE GL--------------------------------------
 void SceneView::initializeGL()
-{
+{   
     initializeOpenGLFunctions();
     printContextInformation();
 
@@ -169,6 +200,7 @@ void SceneView::initializeGL()
 
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
+    setGridSize(2);
 
 
     float vertices[27];
@@ -238,6 +270,7 @@ void SceneView::initializeGL()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 }
 
+//-------------------------------PAINT GL-------------------------------------------
 void SceneView::paintGL()
 {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -248,8 +281,8 @@ void SceneView::paintGL()
     glm::mat4 trans = glm::mat4(1.0f);
     //trans = glm::rotate(trans, glm::radians(0.0f), glm::vec3(0.0, 0.0, 1.0));
     // YOU MUST SCALE BEFORE TRANSLATING
-    trans = glm::scale(trans, glm::vec3(2.0f / 8.0f, 2.0f / 8.0f, 1.0f));
-    trans = glm::translate(trans, glm::vec3(-4.0f, -4.0f, 0.0f));
+    trans = glm::scale(trans, glm::vec3(2.0f / 8.0f, 2.0f / 8.0f, 1.0f));   // TODO: make dynamic
+    trans = glm::translate(trans, glm::vec3(-4.0f, -4.0f, 0.0f));           //TODO: make dynamic
 
     glUseProgram(shaderProgram);
 
@@ -259,7 +292,7 @@ void SceneView::paintGL()
 
     glBindVertexArray(VAO);
     // finally, draw the triangles
-    glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, calcNumTriangleCorners(), GL_UNSIGNED_INT, 0);
     //glBindVertexArray(0);
 }
 
