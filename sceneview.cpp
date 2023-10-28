@@ -131,16 +131,28 @@ void SceneView::initializeGL()
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ----------------------------------------------------------------------------------------------------
+//    float vertices[] = {
+//        -0.4f   , -0.4f , 0,
+//        0       , -0.4f , 0,
+//        0       , 0     , 0,
+//        -0.4f   , 0     , 0,
+//        0.4f    , -0.4f , 0,
+//        0.4f    , 0     , 0,
+//        0.4f    , 0.4f  , 0,
+//        0       , 0.4f  , 0,
+//        -0.4f   , 0.4f  , 0
+//    };
+
     float vertices[] = {
-        -0.4f   , -0.4f , 0,
-        0       , -0.4f , 0,
-        0       , 0     , 0,
-        -0.4f   , 0     , 0,
-        0.4f    , -0.4f , 0,
-        0.4f    , 0     , 0,
-        0.4f    , 0.4f  , 0,
-        0       , 0.4f  , 0,
-        -0.4f   , 0.4f  , 0
+        0, 0, 0,
+        4, 0, 0,
+        4, 4, 0,
+        0, 4, 0,
+        8, 0, 0,
+        8, 4, 0,
+        8, 8, 0,
+        4, 8, 0,
+        0, 8, 0
     };
 
     float colors[] = {
@@ -178,21 +190,20 @@ void SceneView::initializeGL()
     // setup vertex buffer for positions
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    // send position array to the vertex shader
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
     // setup vertex buffer for COLORS
     glBindBuffer(GL_ARRAY_BUFFER, ColorVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-    // Define vertex attribute pointer for colors
+    // send color array to the vertex shader
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
     glEnableVertexAttribArray(1);
 
+    // setup Element Buffer Object
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-
-
 }
 
 void SceneView::paintGL()
@@ -200,15 +211,22 @@ void SceneView::paintGL()
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+
     // transform stuff
     glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians(0.0f), glm::vec3(0.0, 0.0, 1.0));
-    trans = glm::scale(trans, glm::vec3(1, 1, 1));
+    //trans = glm::rotate(trans, glm::radians(0.0f), glm::vec3(0.0, 0.0, 1.0));
+    // YOU MUST SCALE BEFORE TRANSLATING
+    trans = glm::scale(trans, glm::vec3(2.0f / 8.0f, 2.0f / 8.0f, 1.0f));
+    trans = glm::translate(trans, glm::vec3(-4.0f, -4.0f, 0.0f));
 
     glUseProgram(shaderProgram);
+
+    // tie the uniform variable 'trans' to the vertex shader
     unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
     glBindVertexArray(VAO);
+    // finally, draw the triangles
     glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, 0);
     //glBindVertexArray(0);
 }
