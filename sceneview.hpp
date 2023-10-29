@@ -20,13 +20,15 @@ protected:
 
 private:
 
+    std::vector<float> vertices;
+
     int GridSize{0}; // nxn square
     void setGridSize(int newSize);
     int calcNumCells();
     int calcNumVertices();
     int calcVertArrayLength();
     int calcNumTriangleCorners();
-    void populateVerticeArray(int count, float verticeArray[]);
+    void populateVerticeArray();
 
     void initVertexShader();
     void checkVertShaderErrors();

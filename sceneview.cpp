@@ -149,43 +149,35 @@ int SceneView::calcNumTriangleCorners()
     return 6 * calcNumCells();
 }
 
-void SceneView::populateVerticeArray(int count, float verticeArray[])
+void SceneView::populateVerticeArray()
 {
-    verticeArray[0] = 0;
-    verticeArray[1] = 0;
-    verticeArray[2] = 0;
-
-    verticeArray[3] = 4;
-    verticeArray[4] = 0;
-    verticeArray[5] = 0;
-
-    verticeArray[6] = 4;
-    verticeArray[7] = 4;
-    verticeArray[8] = 0;
-
-    verticeArray[9] = 0;
-    verticeArray[10] = 4;
-    verticeArray[11] = 0;
-
-    verticeArray[12] = 8;
-    verticeArray[13] = 0;
-    verticeArray[14] = 0;
-
-    verticeArray[15] = 8;
-    verticeArray[16] = 4;
-    verticeArray[17] = 0;
-
-    verticeArray[18] = 8;
-    verticeArray[19] = 8;
-    verticeArray[20] = 0;
-
-    verticeArray[21] = 4;
-    verticeArray[22] = 8;
-    verticeArray[23] = 0;
-
-    verticeArray[24] = 0;
-    verticeArray[25] = 8;
-    verticeArray[26] = 0;
+    this->vertices.push_back(0);
+    this->vertices.push_back(0);
+    this->vertices.push_back(0);
+    this->vertices.push_back(4);
+    this->vertices.push_back(0);
+    this->vertices.push_back(0);
+    this->vertices.push_back(4);
+    this->vertices.push_back(4);
+    this->vertices.push_back(0);
+    this->vertices.push_back(0);
+    this->vertices.push_back(4);
+    this->vertices.push_back(0);
+    this->vertices.push_back(8);
+    this->vertices.push_back(0);
+    this->vertices.push_back(0);
+    this->vertices.push_back(8);
+    this->vertices.push_back(4);
+    this->vertices.push_back(0);
+    this->vertices.push_back(8);
+    this->vertices.push_back(8);
+    this->vertices.push_back(0);
+    this->vertices.push_back(4);
+    this->vertices.push_back(8);
+    this->vertices.push_back(0);
+    this->vertices.push_back(0);
+    this->vertices.push_back(8);
+    this->vertices.push_back(0);
 }
 
 //------------------------------INITIALIZE GL--------------------------------------
@@ -200,22 +192,20 @@ void SceneView::initializeGL()
 
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
-    setGridSize(2);
+    setGridSize(2);                                                                                     // VERY IMPORTANT!!!!!
+    populateVerticeArray();
 
-
-    float vertices[27];
-    populateVerticeArray(27, vertices);
-    /*= {
-        0, 0, 0,
-        4, 0, 0,
-        4, 4, 0,
-        0, 4, 0,
-        8, 0, 0,
-        8, 4, 0,
-        8, 8, 0,
-        4, 8, 0,
-        0, 8, 0
-    };*/
+//    {
+//        0, 0, 0,
+//        4, 0, 0,
+//        4, 4, 0,
+//        0, 4, 0,
+//        8, 0, 0,
+//        8, 4, 0,
+//        8, 8, 0,
+//        4, 8, 0,
+//        0, 8, 0
+//    };
 
 
     float colors[] = {
@@ -253,7 +243,7 @@ void SceneView::initializeGL()
 
     // setup vertex buffer for positions
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, this->vertices.size()*sizeof(float), this->vertices.data(), GL_STATIC_DRAW);
     // send position array to the vertex shader
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
