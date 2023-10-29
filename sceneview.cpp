@@ -194,7 +194,6 @@ void SceneView::initializeGL()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     setGridSize(2);                                                                                     // VERY IMPORTANT!!!!!
     populateVerticeArray();
-
 //    {
 //        0, 0, 0,
 //        4, 0, 0,
@@ -250,7 +249,7 @@ void SceneView::initializeGL()
 
     // setup vertex buffer for COLORS
     glBindBuffer(GL_ARRAY_BUFFER, ColorVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_DYNAMIC_DRAW);
     // send color array to the vertex shader
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
     glEnableVertexAttribArray(1);
