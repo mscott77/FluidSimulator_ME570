@@ -22,6 +22,7 @@ private:
 
     std::vector<float> vertices;
     std::vector<int> indices;
+    std::vector<float> colors;
 
     int GridSize{0}; // nxn square
     void setGridSize(int newSize);
@@ -31,6 +32,14 @@ private:
     int calcNumTriangleCorners();
     void populateVerticeArray();
     void populateIndices();
+    void populateColors();
+    //
+    int getRedIndexAtPoint(int x, int y);
+    int getGreenIndexAtPoint(int x, int y);
+    int getBlueIndexAtPoint(int x, int y);
+    int getOpacityIndexAtPoint(int x, int y);
+    void setColorAtPoint(int x, int y, float R, float G, float B, float O);
+
 
     void initVertexShader();
     void checkVertShaderErrors();

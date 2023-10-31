@@ -185,6 +185,42 @@ void SceneView::populateIndices()
     }
 }
 
+//--------------------------------COLOR STUFF------------------------------------
+int SceneView::getRedIndexAtPoint(int x, int y)
+{
+    int n = this->GridSize;
+    return ((n+1)*4*x) + (4*y) + 0;
+}
+int SceneView::getGreenIndexAtPoint(int x, int y)
+{
+    int n = this->GridSize;
+   return ((n+1)*4*x) + (4*y) + 1;
+}
+int SceneView::getBlueIndexAtPoint(int x, int y)
+{
+   int n = this->GridSize;
+    return ((n+1)*4*x) + (4*y) + 2;
+}
+int SceneView::getOpacityIndexAtPoint(int x, int y)
+{
+    int n = this->GridSize;
+    return ((n+1)*4*x) + (4*y) + 3;
+}
+void SceneView::setColorAtPoint(int x, int y, float R, float G, float B, float O)
+{
+
+}
+
+
+void SceneView::populateColors()
+{
+    int numEntries = (this->calcNumVertices())*4;
+    for (int i = 0; i < numEntries; i++)
+    {
+        this->colors.push_back(1.0f);
+    }
+}
+
 //------------------------------INITIALIZE GL--------------------------------------
 void SceneView::initializeGL()
 {   
@@ -200,23 +236,20 @@ void SceneView::initializeGL()
     setGridSize(2);                                                                                     // VERY IMPORTANT!!!!!
     populateVerticeArray();
 
-    float colors[] = {
-        1.0f, 0.0f, 0.0f, 1.0f,  // Red
-        0.0f, 1.0f, 0.0f, 1.0f,  // Green
-        1.0f, 0.0f, 0.0f, 1.0f,  // Red
-        0.0f, 0.0f, 1.0f, 1.0f,   // Blue
-        0.0f, 1.0f, 0.0f, 1.0f,  // Green
-        0.0f, 1.0f, 0.0f, 1.0f,  // Green
-        1.0f, 0.0f, 0.0f, 1.0f,  // Red
-        0.0f, 0.0f, 1.0f, 1.0f,   // Blue
-        0.0f, 0.0f, 1.0f, 1.0f   // Blue
-    };
-
-    populateIndices();
-//    unsigned int indices[] = {  // note that we start from 0!
-//        0, 1, 3, 1, 4, 3, 1, 2, 4, 2, 5, 4, 3, 4, 6, 4, 7, 6, 4, 5, 7, 5, 8, 7
+    populateColors();
+//    float colors[] = {
+//        1.0f, 0.0f, 0.0f, 1.0f,  // Red
+//        0.0f, 1.0f, 0.0f, 1.0f,  // Green
+//        1.0f, 0.0f, 0.0f, 1.0f,  // Red
+//        0.0f, 0.0f, 1.0f, 1.0f,   // Blue
+//        0.0f, 1.0f, 0.0f, 1.0f,  // Green
+//        0.0f, 1.0f, 0.0f, 1.0f,  // Green
+//        1.0f, 0.0f, 0.0f, 1.0f,  // Red
+//        0.0f, 0.0f, 1.0f, 1.0f,   // Blue
+//        0.0f, 0.0f, 1.0f, 1.0f   // Blue
 //    };
 
+    populateIndices();
 
     // generate arrays and buffers
     glGenVertexArrays(1, &VAO);
@@ -236,7 +269,7 @@ void SceneView::initializeGL()
 
     // setup vertex buffer for COLORS
     glBindBuffer(GL_ARRAY_BUFFER, ColorVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, this->colors.size()*sizeof(float), this->colors.data(), GL_DYNAMIC_DRAW);
     // send color array to the vertex shader
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
     glEnableVertexAttribArray(1);
