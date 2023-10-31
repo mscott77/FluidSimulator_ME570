@@ -208,9 +208,16 @@ int SceneView::getOpacityIndexAtPoint(int x, int y)
 }
 void SceneView::setColorAtPoint(int x, int y, float R, float G, float B, float O)
 {
-
+    int iR = getRedIndexAtPoint(x, y);
+    int iG = getGreenIndexAtPoint(x,y);
+    int iB = getBlueIndexAtPoint(x,y);
+    int iO = getOpacityIndexAtPoint(x,y);
+    //
+    this->colors.at(iR) = R;
+    this->colors.at(iG) = G;
+    this->colors.at(iB) = B;
+    this->colors.at(iO) = O;
 }
-
 
 void SceneView::populateColors()
 {
@@ -219,6 +226,18 @@ void SceneView::populateColors()
     {
         this->colors.push_back(1.0f);
     }
+    setColorAtPoint(0,0,1.0f,0.0f,0.0f,1.0f);
+    setColorAtPoint(1,0,1.0f,0.0f,0.0f,1.0f);
+    setColorAtPoint(2,0,1.0f,0.0f,0.0f,1.0f);
+    //
+    setColorAtPoint(0,1,0.0f,1.0f,0.0f,1.0f);
+    setColorAtPoint(1,1,0.0f,1.0f,0.0f,1.0f);
+    setColorAtPoint(2,1,0.0f,1.0f,0.0f,1.0f);
+    //
+    setColorAtPoint(0,2,1.0f,0.0f,0.0f,1.0f);
+    setColorAtPoint(1,2,1.0f,0.0f,0.0f,1.0f);
+    setColorAtPoint(2,2,1.0f,0.0f,0.0f,1.0f);
+
 }
 
 //------------------------------INITIALIZE GL--------------------------------------
@@ -231,24 +250,10 @@ void SceneView::initializeGL()
     initFragmentShader();
     linkShaders();
 
-
     // set up vertex data (and buffer(s)) and configure vertex attributes
     setGridSize(2);                                                                                     // VERY IMPORTANT!!!!!
     populateVerticeArray();
-
     populateColors();
-//    float colors[] = {
-//        1.0f, 0.0f, 0.0f, 1.0f,  // Red
-//        0.0f, 1.0f, 0.0f, 1.0f,  // Green
-//        1.0f, 0.0f, 0.0f, 1.0f,  // Red
-//        0.0f, 0.0f, 1.0f, 1.0f,   // Blue
-//        0.0f, 1.0f, 0.0f, 1.0f,  // Green
-//        0.0f, 1.0f, 0.0f, 1.0f,  // Green
-//        1.0f, 0.0f, 0.0f, 1.0f,  // Red
-//        0.0f, 0.0f, 1.0f, 1.0f,   // Blue
-//        0.0f, 0.0f, 1.0f, 1.0f   // Blue
-//    };
-
     populateIndices();
 
     // generate arrays and buffers
