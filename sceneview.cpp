@@ -162,6 +162,29 @@ void SceneView::populateVerticeArray()
     }
 }
 
+void SceneView::populateIndices()
+{
+    int n = this->GridSize;
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            int BL = i*(n+1) + j;
+            int TL = BL + 1;
+            int BR = BL + n + 1;
+            int TR = BR + 1;
+
+            this->indices.push_back(BL);
+            this->indices.push_back(TL);
+            this->indices.push_back(BR);
+            //
+            this->indices.push_back(TL);
+            this->indices.push_back(TR);
+            this->indices.push_back(BR);
+        }
+    }
+}
+
 //------------------------------INITIALIZE GL--------------------------------------
 void SceneView::initializeGL()
 {   
@@ -176,18 +199,6 @@ void SceneView::initializeGL()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     setGridSize(2);                                                                                     // VERY IMPORTANT!!!!!
     populateVerticeArray();
-//    {
-//        0, 0, 0,
-//        4, 0, 0,
-//        4, 4, 0,
-//        0, 4, 0,
-//        8, 0, 0,
-//        8, 4, 0,
-//        8, 8, 0,
-//        4, 8, 0,
-//        0, 8, 0
-//    };
-
 
     float colors[] = {
         1.0f, 0.0f, 0.0f, 1.0f,  // Red
@@ -201,10 +212,11 @@ void SceneView::initializeGL()
         0.0f, 0.0f, 1.0f, 1.0f   // Blue
     };
 
+    populateIndices();
+//    unsigned int indices[] = {  // note that we start from 0!
+//        0, 1, 3, 1, 4, 3, 1, 2, 4, 2, 5, 4, 3, 4, 6, 4, 7, 6, 4, 5, 7, 5, 8, 7
+//    };
 
-    unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 3, 1, 4, 3, 1, 2, 4, 2, 5, 4, 3, 4, 6, 4, 7, 6, 4, 5, 7, 5, 8, 7
-    };
 
     // generate arrays and buffers
     glGenVertexArrays(1, &VAO);
@@ -231,7 +243,7 @@ void SceneView::initializeGL()
 
     // setup Element Buffer Object
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size()*sizeof(float), this->indices.data(), GL_STATIC_DRAW);
 }
 
 //-------------------------------PAINT GL-------------------------------------------

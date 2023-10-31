@@ -21,6 +21,7 @@ protected:
 private:
 
     std::vector<float> vertices;
+    std::vector<int> indices;
 
     int GridSize{0}; // nxn square
     void setGridSize(int newSize);
@@ -29,6 +30,7 @@ private:
     int calcVertArrayLength();
     int calcNumTriangleCorners();
     void populateVerticeArray();
+    void populateIndices();
 
     void initVertexShader();
     void checkVertShaderErrors();
