@@ -10,8 +10,8 @@
 
 SceneView::SceneView(QWidget* parent): QOpenGLWidget(parent)
 {
-    setMinimumSize(775, 775);
-    setMaximumSize(775, 775);
+    setMinimumSize(700, 700);
+    setMaximumSize(700, 700);
 }
 
 
@@ -151,33 +151,15 @@ int SceneView::calcNumTriangleCorners()
 
 void SceneView::populateVerticeArray()
 {
-    this->vertices.push_back(0);
-    this->vertices.push_back(0);
-    this->vertices.push_back(0);
-    this->vertices.push_back(4);
-    this->vertices.push_back(0);
-    this->vertices.push_back(0);
-    this->vertices.push_back(4);
-    this->vertices.push_back(4);
-    this->vertices.push_back(0);
-    this->vertices.push_back(0);
-    this->vertices.push_back(4);
-    this->vertices.push_back(0);
-    this->vertices.push_back(8);
-    this->vertices.push_back(0);
-    this->vertices.push_back(0);
-    this->vertices.push_back(8);
-    this->vertices.push_back(4);
-    this->vertices.push_back(0);
-    this->vertices.push_back(8);
-    this->vertices.push_back(8);
-    this->vertices.push_back(0);
-    this->vertices.push_back(4);
-    this->vertices.push_back(8);
-    this->vertices.push_back(0);
-    this->vertices.push_back(0);
-    this->vertices.push_back(8);
-    this->vertices.push_back(0);
+    for (int i = 0; i <= (this->GridSize); ++i)
+    {
+        for (int j = 0; j <= (this->GridSize); ++j)
+        {
+            this->vertices.push_back(i);
+            this->vertices.push_back(j);
+            this->vertices.push_back(0.0f);
+        }
+    }
 }
 
 //------------------------------INITIALIZE GL--------------------------------------
@@ -221,14 +203,7 @@ void SceneView::initializeGL()
 
 
     unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 2,
-        0, 2, 3,
-        1, 5, 2,
-        1, 4, 5,
-        2, 5, 6,
-        2, 6, 7,
-        2, 7, 3,
-        3, 7, 8
+        0, 1, 3, 1, 4, 3, 1, 2, 4, 2, 5, 4, 3, 4, 6, 4, 7, 6, 4, 5, 7, 5, 8, 7
     };
 
     // generate arrays and buffers
@@ -268,10 +243,9 @@ void SceneView::paintGL()
 
     // transform stuff
     glm::mat4 trans = glm::mat4(1.0f);
-    //trans = glm::rotate(trans, glm::radians(0.0f), glm::vec3(0.0, 0.0, 1.0));
     // YOU MUST SCALE BEFORE TRANSLATING
-    trans = glm::scale(trans, glm::vec3(2.0f / 8.0f, 2.0f / 8.0f, 1.0f));   // TODO: make dynamic
-    trans = glm::translate(trans, glm::vec3(-4.0f, -4.0f, 0.0f));           //TODO: make dynamic
+    trans = glm::scale(trans, glm::vec3(2.0f / (this->GridSize), 2.0f / (this->GridSize), 1.0f));
+    trans = glm::translate(trans, glm::vec3( -((this->GridSize)/2.0f), -((this->GridSize)/2.0f), 0.0f));
 
     glUseProgram(shaderProgram);
 

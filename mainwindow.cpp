@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget* parent)
   , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    resize(800,800);
+    resize(750,750);
     scene = new SceneView();
 
     QFormLayout* layout = new QFormLayout(ui->frame);
